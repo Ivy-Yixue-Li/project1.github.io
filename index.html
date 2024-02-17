@@ -184,7 +184,7 @@
 
     <button id="playButton">拟画Play</button>
     <div id="player" style="display:none;"></div>
-    <audio id="myAudio" src="sounds/ZOOM0016.mp3" autoplay loop> </audio> 
+    <audio id="myAudio" src="sounds/ZOOM0016.mp3" loop> </audio> 
 
     <!-- Gradient and controls -->
     <div class="gradient-container">
@@ -278,12 +278,22 @@
         document.getElementById('playButton').addEventListener('click', function() {
             this.style.display = 'none'; // Hide play button
 
-            // Add video-container class dynamically
+            // Check if the YouTube player is already initialized
+            if (!player) {
+                // Load and play the video if the player isn't initialized
+                loadRandomVideo(); // This function initializes the player and plays the video
+            }
+
+            // Play audio with direct user interaction
+            var audio = document.getElementById('myAudio');
+            if (audio.paused) {
+                audio.play().catch(e => console.error("Error playing audio: ", e));
+            }
+
+            // Show the video player container
             var playerDiv = document.getElementById('player');
-            playerDiv.style.display = 'block'; // Show the video player
-            playerDiv.parentNode.className += "video-container"; // Ensure the parent has the video-container class
-    
-            loadRandomVideo(); // Load and play the video and audio
+            playerDiv.style.display = 'block';
+            playerDiv.parentNode.className += " video-container";
         });
 
     // Video UI: play/pause
